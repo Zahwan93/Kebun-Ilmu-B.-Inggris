@@ -1,0 +1,2576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+       body::before,
+body::after {
+    /* Ganti ukurannya jadi persentase agar aman di mobile */
+    width: 100vw;
+    height: 100vw;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.2;
+}
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+}
+
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 300px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+        }
+        .card:nth-child(1) { background: #4dd4a3; }
+        .card:nth-child(2) { background: #4dd4a3; }
+        .card:nth-child(3) { background: #4dd4a3; }
+        .card:nth-child(4) { background: #4dd4a3; }
+	.card:nth-child(5) { background: #4dd4a3; }
+        .card:nth-child(6) { background: #4dd4a3; }
+        .card:nth-child(7) { background: #4dd4a3; }
+        .card:nth-child(8) { background: #4dd4a3; }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .card a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+/* Tambahan untuk responsif mobile */
+@media screen and (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  .sidebar {
+    width: 80%;
+    left: -80%;
+  }
+
+  .toggle-btn {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+
+  .header span {
+    font-size: 20px;
+  }
+
+  .login-box {
+    width: 90%;
+    max-width: 90%;
+    margin: 20px auto;
+  }
+
+  body::before,
+  body::after {
+    display: none;
+  }
+}
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+  <li class="mb-3"><a href="#1.-What-delicious-bakso" class="hover:text-white">1. What delicious bakso!</a></li>
+  <li class="mb-3"><a href="#2.-I-want-an-ice-cream-cone" class="hover:text-white">2. I want an ice cream cone</a></li>
+  <li class="mb-3"><a href="#3.-How-much-is-it" class="hover:text-white">3. How much is it?</a></li>
+  <li class="mb-3"><a href="#4.-I-have-a-stomachache" class="hover:text-white">4. I have a stomachache</a></li>
+  <li class="mb-3"><a href="#5.-What-a-nice-skirt" class="hover:text-white">5. What a nice skirt!</a></li>
+</ul>
+
+
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="https://zahwan93.github.io/Kebun-Ilmu-Matematika-SMP/logo.png" alt="Logo">
+    </div>
+    
+    <<!-- Konten Utama -->
+<div class="w-full max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
+  <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">Bahasa Inggris Kelas 9 SMP</h1>
+
+  <!-- Daftar Isi -->
+  <div id="B Inggris" class="mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Table of Contents</h2>
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+      <li class="mb-3"><a href="#1.-Congratulation" class="hover:text-white">1. Congratulation</a></li>
+      <li class="mb-3"><a href="#2.-Hope-and-Wish" class="hover:text-white">2. Hope and Wish</a></li>
+      <li class="mb-3"><a href="#3.-Agreement-and-Disagreement" class="hover:text-white">3. Agreement and Disagreement</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. Congratulation -->
+  <div id="1.-Congratulation" class="text-gray-800 space-y-6 mt-10">
+    <h2 class="text-2xl font-bold text-[#4dd4a3]">1. Congratulation</h2>
+
+    <p>Ucapan selamat digunakan untuk mengekspresikan kegembiraan atas pencapaian atau kebahagiaan orang lain.</p>
+
+    <!-- A. Vocabulary -->
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">A. Common Phrases</h3>
+      <ul class="list-disc list-inside">
+        <li>Congratulations!</li>
+        <li>Well done!</li>
+        <li>Good job!</li>
+        <li>I’m proud of you!</li>
+        <li>That’s amazing!</li>
+        <li>What a great achievement!</li>
+      </ul>
+    </div>
+
+    <!-- B. Example -->
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">B. Example Dialogue</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[#4dd4a3] text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> I heard you won the speech contest. Congratulations!</p>
+          <p><strong>B:</strong> Thank you! I worked really hard for it.</p>
+        </div>
+        <div class="bg-yellow-100 text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> Aku dengar kamu menang lomba pidato. Selamat ya!</p>
+          <p><strong>B:</strong> Terima kasih! Aku benar-benar berusaha keras untuk itu.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Vocabulary Table: Congratulation -->
+<div>
+  <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">C. Vocabulary Table</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">English</th>
+          <th class="border px-4 py-2">Meaning (Arti)</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr><td class="border px-4 py-2">Congratulations</td><td class="border px-4 py-2">Selamat</td></tr>
+        <tr><td class="border px-4 py-2">Achievement</td><td class="border px-4 py-2">Pencapaian</td></tr>
+        <tr><td class="border px-4 py-2">Success</td><td class="border px-4 py-2">Kesuksesan</td></tr>
+        <tr><td class="border px-4 py-2">Proud</td><td class="border px-4 py-2">Bangga</td></tr>
+        <tr><td class="border px-4 py-2">Impressive</td><td class="border px-4 py-2">Mengagumkan</td></tr>
+        <tr><td class="border px-4 py-2">Well done</td><td class="border px-4 py-2">Kerja bagus</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- 2. Hope and Wish -->
+  <div id="2.-Hope-and-Wish" class="text-gray-800 space-y-6 mt-10">
+    <h2 class="text-2xl font-bold text-[#4dd4a3]">2. Hope and Wish</h2>
+
+    <p><strong>Hope</strong> dan <strong>Wish</strong> digunakan untuk mengungkapkan harapan atau keinginan.</p>
+
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">A. Expressions</h3>
+      <ul class="list-disc list-inside">
+        <li>I hope you get well soon.</li>
+        <li>I hope you have a great day.</li>
+        <li>I wish I could go to Bali.</li>
+        <li>I wish you all the best!</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">B. Dialogue Example</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[#4dd4a3] text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> I heard you're sick. I hope you recover soon.</p>
+          <p><strong>B:</strong> Thank you, I really appreciate it.</p>
+        </div>
+        <div class="bg-yellow-100 text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> Aku dengar kamu sakit. Semoga cepat sembuh ya.</p>
+          <p><strong>B:</strong> Terima kasih, aku sangat menghargainya.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Vocabulary Table: Hope and Wish -->
+<div>
+  <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">C. Vocabulary Table</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">English</th>
+          <th class="border px-4 py-2">Meaning (Arti)</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr><td class="border px-4 py-2">Hope</td><td class="border px-4 py-2">Harapan</td></tr>
+        <tr><td class="border px-4 py-2">Wish</td><td class="border px-4 py-2">Keinginan</td></tr>
+        <tr><td class="border px-4 py-2">Dream</td><td class="border px-4 py-2">Impian</td></tr>
+        <tr><td class="border px-4 py-2">Recover</td><td class="border px-4 py-2">Sembuh</td></tr>
+        <tr><td class="border px-4 py-2">Future</td><td class="border px-4 py-2">Masa depan</td></tr>
+        <tr><td class="border px-4 py-2">Best</td><td class="border px-4 py-2">Terbaik</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- 3. Agreement and Disagreement -->
+  <div id="3.-Agreement-and-Disagreement" class="text-gray-800 space-y-6 mt-10">
+    <h2 class="text-2xl font-bold text-[#4dd4a3]">3. Agreement and Disagreement</h2>
+
+    <p>Ungkapan persetujuan (agreement) dan ketidaksetujuan (disagreement) digunakan dalam diskusi atau pendapat.</p>
+
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">A. Useful Expressions</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h4 class="font-semibold mb-1">Agreement</h4>
+          <ul class="list-disc list-inside">
+            <li>I agree with you.</li>
+            <li>That’s right.</li>
+            <li>Absolutely!</li>
+            <li>You're right.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-1">Disagreement</h4>
+          <ul class="list-disc list-inside">
+            <li>I disagree.</li>
+            <li>I don’t think so.</li>
+            <li>That’s not true.</li>
+            <li>Sorry, I can’t agree with that.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">B. Sample Dialogue</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[#4dd4a3] text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> I think homework should be banned.</p>
+          <p><strong>B:</strong> I don’t think so. Homework helps us learn.</p>
+        </div>
+        <div class="bg-yellow-100 text-black p-4 rounded-md shadow space-y-2">
+          <p><strong>A:</strong> Menurutku PR sebaiknya dilarang saja.</p>
+          <p><strong>B:</strong> Aku tidak setuju. PR membantu kita belajar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Vocabulary Table: Agreement and Disagreement -->
+<div>
+  <h3 class="text-xl font-semibold text-[#4dd4a3] mb-2">C. Vocabulary Table</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">English</th>
+          <th class="border px-4 py-2">Meaning (Arti)</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr><td class="border px-4 py-2">Agree</td><td class="border px-4 py-2">Setuju</td></tr>
+        <tr><td class="border px-4 py-2">Disagree</td><td class="border px-4 py-2">Tidak setuju</td></tr>
+        <tr><td class="border px-4 py-2">Opinion</td><td class="border px-4 py-2">Pendapat</td></tr>
+        <tr><td class="border px-4 py-2">Discussion</td><td class="border px-4 py-2">Diskusi</td></tr>
+        <tr><td class="border px-4 py-2">Absolutely</td><td class="border px-4 py-2">Benar sekali</td></tr>
+        <tr><td class="border px-4 py-2">I don’t think so</td><td class="border px-4 py-2">Saya rasa tidak begitu</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+
+
+<div class="w-full mx-auto bg-white p-6 rounded shadow-md text-gray-800">
+
+  <!-- Tombol Toggle -->
+  <button onclick="togglePractice('practiceBox')" 
+    class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition duration-300">
+     🎧 Vocabulary Practice 
+  </button>
+
+  <!-- Kontainer Soal -->
+<div id="practiceBox" class="mt-6 space-y-8">
+
+  <!-- Soal 1 -->
+  <!-- Soal 1: Congratulation - Choose the best response -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 1: Congratulation Expression</h2>
+  <div class="text-center">
+    <img src="https://media.matamata.com/thumbs/2021/12/07/91172-potret-wisuda-prilly-latuconsina-instagramatprillylatuconsina96/745x489-img-91172-potret-wisuda-prilly-latuconsina-instagramatprillylatuconsina96.jpg" alt="Award Ceremony" class="w-64 mx-auto rounded-xl shadow mb-4">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question1">What should you say to him?</p>
+      <button onclick="speakText('What should you say to him?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices1" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices1')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Where did you go?</button>
+      <button onclick="selectAnswer(this, 'choices1')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’m sorry to hear that</button>
+      <button onclick="selectAnswer(this, 'choices1')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations!</button>
+      <button onclick="selectAnswer(this, 'choices1')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What are you doing?</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('Congratulations!', 'choices1')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Soal 2 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 2: Expressing Praise</h2>
+  <div class="text-center">
+    <img src="https://scontent.fsrg5-2.fna.fbcdn.net/v/t39.30808-6/505030207_3188586424624382_1695156352703762217_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=111&ccb=1-7&_nc_sid=0b6b33&_nc_ohc=S_YpNYK5tnsQ7kNvwH3HoSL&_nc_oc=AdmUN7Cyved-69bMZNs5rZpixzGq2zHuReQQfcjUw_yuIbDhxU3_rebLHJdndN9bdfw&_nc_zt=23&_nc_ht=scontent.fsrg5-2.fna&_nc_gid=eRB-gGiHy8knJAeoyIFzbw&oh=00_AfRUWvTqdQgijqOZSCBg29rSjkzftuG8ZiS--MWtGGhD6A&oe=6894F935" alt="Teacher congratulating student" class="w-64 mx-auto rounded-xl shadow mb-4">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question2">You got the highest score in class! What would your teacher say?</p>
+      <button onclick="speakText('You got the highest score in class! What would your teacher say?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices2" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices2')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Well done!</button>
+      <button onclick="selectAnswer(this, 'choices2')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Try harder next time.</button>
+      <button onclick="selectAnswer(this, 'choices2')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">It’s not good enough.</button>
+      <button onclick="selectAnswer(this, 'choices2')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why are you late?</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('Well done!', 'choices2')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Soal 3 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 3: Expressing Pride</h2>
+  <div class="text-center">
+    <img src="https://thumbs.dreamstime.com/z/graduate-girl-graduated-university-got-master-degree-graduation-happy-graduate-girl-smiling-holding-diploma-270787808.jpg?ct=jpeg" alt="Proud father" class="w-64 mx-auto rounded-xl shadow mb-4">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question3">A girl just graduated. What might her father say?</p>
+      <button onclick="speakText('A girl just graduated. What might her father say?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices3" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices3')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Where is your bag?</button>
+      <button onclick="selectAnswer(this, 'choices3')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’m proud of you!</button>
+      <button onclick="selectAnswer(this, 'choices3')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don’t be late again.</button>
+      <button onclick="selectAnswer(this, 'choices3')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s boring.</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I’m proud of you!', 'choices3')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Soal 4 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 4: Wedding Congratulations</h2>
+  <div class="text-center">
+    <img src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1609726896/pzyiiximkrtd3pg7co37.jpg" alt="Wedding Couple" class="w-64 mx-auto rounded-xl shadow mb-4">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question4">Your friend just got married. What would you say to congratulate them?</p>
+      <button onclick="speakText('Your friend just got married. What would you say to congratulate them?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices4" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices4')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’m sorry to hear that</button>
+      <button onclick="selectAnswer(this, 'choices4')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Happy Wedding! Wishing you a lifetime of love and happiness</button>
+      <button onclick="selectAnswer(this, 'choices4')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Better luck next time</button>
+      <button onclick="selectAnswer(this, 'choices4')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">See you tomorrow</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('Happy Wedding! Wishing you a lifetime of love and happiness', 'choices4')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 5: Encouraging Expression</h2>
+  <div class="text-center">
+    <img src="https://www.alsyukrouniversal.com/images/news/selamat-atas-juara-osn.jpg" alt="Success and Trophy" class="w-64 mx-auto rounded-xl shadow mb-4">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question5">Your friend just won a competition. What would you say?</p>
+      <button onclick="speakText('Your friend just won a competition. What would you say?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices5" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices5')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You deserve it!</button>
+      <button onclick="selectAnswer(this, 'choices5')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Too bad.</button>
+      <button onclick="selectAnswer(this, 'choices5')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I told you you’d lose.</button>
+      <button onclick="selectAnswer(this, 'choices5')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What did you say?</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('You deserve it!', 'choices5')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Soal 6 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 6: Expression of Hope</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question6">Which sentence shows hope?</p>
+      <button onclick="speakText('Which sentence shows hope?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices6" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices6')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I hope you pass the exam</button>
+      <button onclick="selectAnswer(this, 'choices6')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">He always plays soccer</button>
+      <button onclick="selectAnswer(this, 'choices6')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">This is your bag</button>
+      <button onclick="selectAnswer(this, 'choices6')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">We are watching TV</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I hope you pass the exam', 'choices6')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 7: Expression of Wish</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question7">Which one expresses a wish?</p>
+      <button onclick="speakText('Which one expresses a wish?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices7" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices7')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">She studies hard every day</button>
+      <button onclick="selectAnswer(this, 'choices7')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wish I could travel to Japan</button>
+      <button onclick="selectAnswer(this, 'choices7')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They are swimming</button>
+      <button onclick="selectAnswer(this, 'choices7')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">We cook together</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I wish I could travel to Japan', 'choices7')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 8: Expression of Hope</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question8">Which sentence is appropriate if your friend is sick?</p>
+      <button onclick="speakText('Which sentence is appropriate if your friend is sick?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices8" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices8')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I hope you get well soon</button>
+      <button onclick="selectAnswer(this, 'choices8')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Let’s play football</button>
+      <button onclick="selectAnswer(this, 'choices8')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don’t be late</button>
+      <button onclick="selectAnswer(this, 'choices8')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">This food is delicious</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I hope you get well soon', 'choices8')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 9: Wish Statement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question9">You don’t have a car. What sentence shows your wish?</p>
+      <button onclick="speakText('You don’t have a car. What sentence shows your wish?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices9" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices9')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wish I had a car</button>
+      <button onclick="selectAnswer(this, 'choices9')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">My brother has a car</button>
+      <button onclick="selectAnswer(this, 'choices9')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">He drives fast</button>
+      <button onclick="selectAnswer(this, 'choices9')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">She is in the garage</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I wish I had a car', 'choices9')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 10: Hope or Wish?</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question10">Which sentence uses the correct structure of "wish"?</p>
+      <button onclick="speakText('Which sentence uses the correct structure of wish?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <div id="choices10" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices10')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wish I were taller</button>
+      <button onclick="selectAnswer(this, 'choices10')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">She wish she is pretty</button>
+      <button onclick="selectAnswer(this, 'choices10')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">We wishes he has car</button>
+      <button onclick="selectAnswer(this, 'choices10')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I hope I was taller</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I wish I were taller', 'choices10')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 11 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 11: Agreement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question11">I think the movie was really boring.</p>
+      <button onclick="speakText('I think the movie was really boring.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <p class="mb-2 font-semibold">What is the best response to show agreement?</p>
+    <div id="choices11" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices11')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t think so</button>
+      <button onclick="selectAnswer(this, 'choices11')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I totally agree with you</button>
+      <button onclick="selectAnswer(this, 'choices11')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Let’s watch it again</button>
+      <button onclick="selectAnswer(this, 'choices11')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What movie?</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I totally agree with you', 'choices11')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 12 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 12: Disagreement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question12">I believe Math is the easiest subject.</p>
+      <button onclick="speakText('I believe Math is the easiest subject.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <p class="mb-2 font-semibold">Choose the best response to show disagreement:</p>
+    <div id="choices12" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices12')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Yes, you're right</button>
+      <button onclick="selectAnswer(this, 'choices12')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t think so</button>
+      <button onclick="selectAnswer(this, 'choices12')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I agree</button>
+      <button onclick="selectAnswer(this, 'choices12')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Absolutely!</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I don’t think so', 'choices12')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 13 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 13: Agreement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question13">Reading is a great way to improve our vocabulary.</p>
+      <button onclick="speakText('Reading is a great way to improve our vocabulary.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <p class="mb-2 font-semibold">What response shows agreement?</p>
+    <div id="choices13" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices13')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I totally agree</button>
+      <button onclick="selectAnswer(this, 'choices13')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Not really</button>
+      <button onclick="selectAnswer(this, 'choices13')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t read</button>
+      <button onclick="selectAnswer(this, 'choices13')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Maybe next time</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I totally agree', 'choices13')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 14: Disagreement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question14">Waking up early is useless.</p>
+      <button onclick="speakText('Waking up early is useless.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <p class="mb-2 font-semibold">Choose the best response to disagree politely:</p>
+    <div id="choices14" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices14')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t agree with that</button>
+      <button onclick="selectAnswer(this, 'choices14')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I couldn’t agree more</button>
+      <button onclick="selectAnswer(this, 'choices14')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s true</button>
+      <button onclick="selectAnswer(this, 'choices14')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Absolutely</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('I don’t agree with that', 'choices14')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Soal 15 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 15: Agreement</h2>
+  <div class="text-center">
+    <div class="flex items-center justify-center space-x-2 mb-4">
+      <p class="font-semibold text-lg" id="question15">We should recycle more to save the environment.</p>
+      <button onclick="speakText('We should recycle more to save the environment.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+    </div>
+    <p class="mb-2 font-semibold">Choose the best agreement expression:</p>
+    <div id="choices15" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+      <button onclick="selectAnswer(this, 'choices15')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You’re absolutely right</button>
+      <button onclick="selectAnswer(this, 'choices15')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t care</button>
+      <button onclick="selectAnswer(this, 'choices15')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s not my problem</button>
+      <button onclick="selectAnswer(this, 'choices15')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Who said that?</button>
+    </div>
+    <div class="mt-6">
+      <button onclick="checkAnswer('You’re absolutely right', 'choices15')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+    </div>
+  </div>
+</div>
+<!-- Soal 16 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">📖 Practice 16: Short Story</h2>
+  <p class="mb-2">Dina just won first place in the English Speech Contest at her school. Her friends clapped and smiled at her achievement.</p>
+  <div class="flex items-center justify-start space-x-2 mb-4">
+    <p class="font-semibold text-lg" id="question16">What would be the most appropriate response to Dina?</p>
+    <button onclick="speakText('What would be the most appropriate response to Dina?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+  </div>
+  <div id="choices16" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices16')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Better luck next time</button>
+    <button onclick="selectAnswer(this, 'choices16')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations on your win!</button>
+    <button onclick="selectAnswer(this, 'choices16')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That was terrible</button>
+    <button onclick="selectAnswer(this, 'choices16')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why did you win?</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Congratulations on your win!', 'choices16')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 17 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">📖 Practice 17: Short Story</h2>
+  <p class="mb-2">Raka has just been accepted into his dream university. His family and friends are very proud of him.</p>
+  <div class="flex items-center justify-start space-x-2 mb-4">
+    <p class="font-semibold text-lg" id="question17">What would you say to Raka?</p>
+    <button onclick="speakText('What would you say to Raka?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+  </div>
+  <div id="choices17" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices17')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations! You deserve it</button>
+    <button onclick="selectAnswer(this, 'choices17')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I'm not impressed</button>
+    <button onclick="selectAnswer(this, 'choices17')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Maybe next time</button>
+    <button onclick="selectAnswer(this, 'choices17')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Try again</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Congratulations! You deserve it', 'choices17')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 18 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">📖 Practice 18: Short Story</h2>
+  <p class="mb-2">Tiara was chosen as the best student in her school. Her teacher gave her a medal during the ceremony.</p>
+  <div class="flex items-center justify-start space-x-2 mb-4">
+    <p class="font-semibold text-lg" id="question18">How would you express your happiness to Tiara?</p>
+    <button onclick="speakText('How would you express your happiness to Tiara?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+  </div>
+  <div id="choices18" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices18')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You must be disappointed</button>
+    <button onclick="selectAnswer(this, 'choices18')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congrats, Tiara! I’m so proud of you</button>
+    <button onclick="selectAnswer(this, 'choices18')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s not fair</button>
+    <button onclick="selectAnswer(this, 'choices18')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Too bad</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Congrats, Tiara! I’m so proud of you', 'choices18')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 19 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">📖 Practice 19: Short Story</h2>
+  <p class="mb-2">Andi just opened his first café after months of preparation. His friends came to support and celebrate his achievement.</p>
+  <div class="flex items-center justify-start space-x-2 mb-4">
+    <p class="font-semibold text-lg" id="question19">What would be the best congratulatory remark?</p>
+    <button onclick="speakText('What would be the best congratulatory remark?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+  </div>
+  <div id="choices19" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices19')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good luck next time</button>
+    <button onclick="selectAnswer(this, 'choices19')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What a waste of time</button>
+    <button onclick="selectAnswer(this, 'choices19')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congrats! Wishing your café great success</button>
+    <button onclick="selectAnswer(this, 'choices19')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wouldn't go there</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Congrats! Wishing your café great success', 'choices19')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 20 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">📖 Practice 20: Short Story</h2>
+  <p class="mb-2">Lisa passed the final national exam with the highest score in her school. Her classmates cheered and gave her flowers.</p>
+  <div class="flex items-center justify-start space-x-2 mb-4">
+    <p class="font-semibold text-lg" id="question20">Which sentence is appropriate to say to Lisa?</p>
+    <button onclick="speakText('Which sentence is appropriate to say to Lisa?')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition">🔊</button>
+  </div>
+  <div id="choices20" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices20')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You should try harder next time</button>
+    <button onclick="selectAnswer(this, 'choices20')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations, Lisa! You nailed it!</button>
+    <button onclick="selectAnswer(this, 'choices20')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s unfortunate</button>
+    <button onclick="selectAnswer(this, 'choices20')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don’t be too proud</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Congratulations, Lisa! You nailed it!', 'choices20')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 21 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 21</h2>
+  <p class="mb-4 text-lg">Lisa saw her friend crying after failing the math test. She came and said, “<strong>I hope you feel better soon</strong>.”</p>
+  <p class="font-semibold mb-2">👉 What did Lisa express?</p>
+  <div id="choices21" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices21')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">An apology</button>
+    <button onclick="selectAnswer(this, 'choices21')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A hope</button>
+    <button onclick="selectAnswer(this, 'choices21')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A complaint</button>
+    <button onclick="selectAnswer(this, 'choices21')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A disagreement</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('A hope', 'choices21')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 22 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 22</h2>
+  <p class="mb-4 text-lg">Rico said, “<strong>I wish I could travel to Japan next year.</strong>”</p>
+  <p class="font-semibold mb-2">👉 What does Rico express?</p>
+  <div id="choices22" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices22')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A past event</button>
+    <button onclick="selectAnswer(this, 'choices22')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A hope</button>
+    <button onclick="selectAnswer(this, 'choices22')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A wish</button>
+    <button onclick="selectAnswer(this, 'choices22')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A command</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('A wish', 'choices22')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 23 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 23</h2>
+  <p class="mb-4 text-lg">During the class presentation, Nadia said, “<strong>I hope everyone enjoys our performance today!</strong>”</p>
+  <p class="font-semibold mb-2">👉 What was Nadia expressing?</p>
+  <div id="choices23" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices23')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A joke</button>
+    <button onclick="selectAnswer(this, 'choices23')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A wish</button>
+    <button onclick="selectAnswer(this, 'choices23')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A hope</button>
+    <button onclick="selectAnswer(this, 'choices23')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">An invitation</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('A hope', 'choices23')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 24 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 24</h2>
+  <p class="mb-4 text-lg">Arman failed his English test. He said, “<strong>I wish I had studied harder.</strong>”</p>
+  <p class="font-semibold mb-2">👉 What does Arman express?</p>
+  <div id="choices24" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices24')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A regret</button>
+    <button onclick="selectAnswer(this, 'choices24')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A promise</button>
+    <button onclick="selectAnswer(this, 'choices24')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A hope</button>
+    <button onclick="selectAnswer(this, 'choices24')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">A compliment</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('A regret', 'choices24')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 25 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 25</h2>
+  <p class="mb-4 text-lg">Teacher: “What is your wish for this year?”<br>Student: “<strong>I wish to get better at speaking English.</strong>”</p>
+  <p class="font-semibold mb-2">👉 What is the student’s goal?</p>
+  <div id="choices25" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices25')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To win a competition</button>
+    <button onclick="selectAnswer(this, 'choices25')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To improve English speaking skills</button>
+    <button onclick="selectAnswer(this, 'choices25')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To go abroad</button>
+    <button onclick="selectAnswer(this, 'choices25')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To learn math</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('To improve English speaking skills', 'choices25')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 26 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 26</h2>
+  <p class="mb-2 font-semibold">Ani: I think we should clean the classroom together after school.<br>Bella: ____________</p>
+  <button onclick="speakText('Ani: I think we should clean the classroom together after school. Bella:')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition mb-4">🔊</button>
+  <div id="choices26" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices26')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I agree with you</button>
+    <button onclick="selectAnswer(this, 'choices26')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I hope so</button>
+    <button onclick="selectAnswer(this, 'choices26')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations</button>
+    <button onclick="selectAnswer(this, 'choices26')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Thanks a lot</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I agree with you', 'choices26')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 27 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 27</h2>
+  <p class="mb-2 font-semibold">Dina: I think pineapple on pizza is delicious!<br>Riko: ____________</p>
+  <button onclick="speakText('Dina: I think pineapple on pizza is delicious! Riko:')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition mb-4">🔊</button>
+  <div id="choices27" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices27')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I completely disagree</button>
+    <button onclick="selectAnswer(this, 'choices27')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good luck</button>
+    <button onclick="selectAnswer(this, 'choices27')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wish I could</button>
+    <button onclick="selectAnswer(this, 'choices27')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Happy to hear that</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I completely disagree', 'choices27')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 28 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 28</h2>
+  <p class="mb-2 font-semibold">Teacher: Smartphones should be used only for learning at school.<br>Student: ____________</p>
+  <button onclick="speakText('Smartphones should be used only for learning at school.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition mb-4">🔊</button>
+  <div id="choices28" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices28')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s true, I agree</button>
+    <button onclick="selectAnswer(this, 'choices28')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations</button>
+    <button onclick="selectAnswer(this, 'choices28')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I hope to use them</button>
+    <button onclick="selectAnswer(this, 'choices28')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Nice to meet you</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('That’s true, I agree', 'choices28')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 29 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 29</h2>
+  <p class="mb-2 font-semibold">Wahyu: I think we should cancel the trip because of the rain.<br>Rina: ____________</p>
+  <button onclick="speakText('I think we should cancel the trip because of the rain.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition mb-4">🔊</button>
+  <div id="choices29" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices29')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I disagree, we can still go</button>
+    <button onclick="selectAnswer(this, 'choices29')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Happy trip!</button>
+    <button onclick="selectAnswer(this, 'choices29')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I wish you success</button>
+    <button onclick="selectAnswer(this, 'choices29')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Nice view</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I disagree, we can still go', 'choices29')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 30 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Story Practice 30</h2>
+  <p class="mb-2 font-semibold">Kevin: I think math is the most important subject.<br>Susan: ____________</p>
+  <button onclick="speakText('I think math is the most important subject.')" class="text-[#4dd4a3] text-2xl hover:text-green-600 transition mb-4">🔊</button>
+  <div id="choices30" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices30')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I agree, it’s very useful</button>
+    <button onclick="selectAnswer(this, 'choices30')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good luck!</button>
+    <button onclick="selectAnswer(this, 'choices30')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Hope so</button>
+    <button onclick="selectAnswer(this, 'choices30')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Thanks</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I agree, it’s very useful', 'choices30')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 31 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 31</h2>
+  <p class="text-lg mb-2 font-semibold">🎤 A: I just got first place in the science competition!</p>
+  <p class="text-lg mb-2 font-semibold">👉 What would you say to congratulate A?</p>
+  <div id="choices31" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices31')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What a pity!</button>
+    <button onclick="selectAnswer(this, 'choices31')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations! You deserved it!</button>
+    <button onclick="selectAnswer(this, 'choices31')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why did you join?</button>
+    <button onclick="selectAnswer(this, 'choices31')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t care</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Congratulations! You deserved it!', 'choices31')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 32 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 32</h2>
+  <p class="text-lg mb-2 font-semibold">🎤 B: I finally graduated from high school!</p>
+  <p class="text-lg mb-2 font-semibold">👉 What is the best response?</p>
+  <div id="choices32" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices32')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good for nothing</button>
+    <button onclick="selectAnswer(this, 'choices32')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s awesome! Congratulations!</button>
+    <button onclick="selectAnswer(this, 'choices32')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Too bad</button>
+    <button onclick="selectAnswer(this, 'choices32')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why now?</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('That’s awesome! Congratulations!', 'choices32')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 33 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 33</h2>
+  <p class="text-lg mb-2 font-semibold">🎤 C: I got accepted to my dream university!</p>
+  <p class="text-lg mb-2 font-semibold">👉 Choose the appropriate congratulatory response:</p>
+  <div id="choices33" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices33')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations! I'm so happy for you!</button>
+    <button onclick="selectAnswer(this, 'choices33')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don't tell me that again</button>
+    <button onclick="selectAnswer(this, 'choices33')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s not fair</button>
+    <button onclick="selectAnswer(this, 'choices33')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’d rather not listen</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Congratulations! I\'m so happy for you!', 'choices33')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 34 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 34</h2>
+  <p class="text-lg mb-2 font-semibold">🎤 D: My sister gave birth to a healthy baby boy!</p>
+  <p class="text-lg mb-2 font-semibold">👉 What's the suitable response?</p>
+  <div id="choices34" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices34')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Congratulations on the new baby! That’s wonderful news!</button>
+    <button onclick="selectAnswer(this, 'choices34')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Sorry to hear that</button>
+    <button onclick="selectAnswer(this, 'choices34')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why so sudden?</button>
+    <button onclick="selectAnswer(this, 'choices34')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s strange</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Congratulations on the new baby! That’s wonderful news!', 'choices34')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 35 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 35</h2>
+  <p class="text-lg mb-2 font-semibold">🎤 E: I just published my first novel!</p>
+  <p class="text-lg mb-2 font-semibold">👉 Choose the best congratulatory expression:</p>
+  <div id="choices35" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices35')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s boring</button>
+    <button onclick="selectAnswer(this, 'choices35')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Wow! Congratulations! You must be proud</button>
+    <button onclick="selectAnswer(this, 'choices35')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don’t show off</button>
+    <button onclick="selectAnswer(this, 'choices35')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Not impressed</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Wow! Congratulations! You must be proud', 'choices35')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 36 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 36</h2>
+  <p class="text-lg mb-2 font-semibold">👉 A: I hope you pass your math exam tomorrow!</p>
+  <p class="text-lg mb-4 font-semibold">B: ___</p>
+  <div id="choices36" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices36')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Thanks! I hope so too.</button>
+    <button onclick="selectAnswer(this, 'choices36')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">No, I’m not hungry.</button>
+    <button onclick="selectAnswer(this, 'choices36')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">It’s raining outside.</button>
+    <button onclick="selectAnswer(this, 'choices36')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">See you at school.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Thanks! I hope so too.', 'choices36')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 37 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 37</h2>
+  <p class="text-lg mb-2 font-semibold">👉 A: I wish I could travel to Japan next year.</p>
+  <p class="text-lg mb-4 font-semibold">B: ___</p>
+  <div id="choices37" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices37')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Me too. That would be amazing!</button>
+    <button onclick="selectAnswer(this, 'choices37')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Let’s do our homework.</button>
+    <button onclick="selectAnswer(this, 'choices37')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">The bell has rung.</button>
+    <button onclick="selectAnswer(this, 'choices37')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I forgot my book.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Me too. That would be amazing!', 'choices37')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 38 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 38</h2>
+  <p class="text-lg mb-2 font-semibold">👉 A: I hope your sister gets well soon.</p>
+  <p class="text-lg mb-4 font-semibold">B: ___</p>
+  <div id="choices38" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices38')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Thank you for your kindness.</button>
+    <button onclick="selectAnswer(this, 'choices38')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">She is cooking now.</button>
+    <button onclick="selectAnswer(this, 'choices38')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’m going to school.</button>
+    <button onclick="selectAnswer(this, 'choices38')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s a big cat.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Thank you for your kindness.', 'choices38')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 39 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 39</h2>
+  <p class="text-lg mb-2 font-semibold">👉 A: I wish I had a guitar like yours!</p>
+  <p class="text-lg mb-4 font-semibold">B: ___</p>
+  <div id="choices39" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices39')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Maybe one day you will!</button>
+    <button onclick="selectAnswer(this, 'choices39')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">This is a history book.</button>
+    <button onclick="selectAnswer(this, 'choices39')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Do your homework first.</button>
+    <button onclick="selectAnswer(this, 'choices39')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Time for dinner!</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Maybe one day you will!', 'choices39')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 40 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 40</h2>
+  <p class="text-lg mb-2 font-semibold">👉 A: I hope it doesn’t rain during our trip.</p>
+  <p class="text-lg mb-4 font-semibold">B: ___</p>
+  <div id="choices40" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices40')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Yeah, fingers crossed!</button>
+    <button onclick="selectAnswer(this, 'choices40')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Let’s eat lunch now.</button>
+    <button onclick="selectAnswer(this, 'choices40')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Close the door, please.</button>
+    <button onclick="selectAnswer(this, 'choices40')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">This is my pen.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Yeah, fingers crossed!', 'choices40')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 41 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 41: Expressing Agreement</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: I think our school needs more trees in the yard.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the best response.</span></p>
+  </div>
+  <div id="choices41" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices41')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I completely agree with you.</button>
+    <button onclick="selectAnswer(this, 'choices41')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s not my pencil.</button>
+    <button onclick="selectAnswer(this, 'choices41')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t like gardening.</button>
+    <button onclick="selectAnswer(this, 'choices41')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Why are you saying that?</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I completely agree with you.', 'choices41')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 42 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 42: Expressing Disagreement</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: I believe online learning is better than going to school.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the best response.</span></p>
+  </div>
+  <div id="choices42" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices42')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t think so. I prefer learning in class.</button>
+    <button onclick="selectAnswer(this, 'choices42')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You’re right. I love it too!</button>
+    <button onclick="selectAnswer(this, 'choices42')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s a good movie.</button>
+    <button onclick="selectAnswer(this, 'choices42')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Yes, that’s my bag.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I don’t think so. I prefer learning in class.', 'choices42')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 43 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 43: Agreement</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: English is the most important subject in school.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the best response.</span></p>
+  </div>
+  <div id="choices43" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices43')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I think you're absolutely right.</button>
+    <button onclick="selectAnswer(this, 'choices43')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t know your name.</button>
+    <button onclick="selectAnswer(this, 'choices43')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">What time is it?</button>
+    <button onclick="selectAnswer(this, 'choices43')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t like to speak English.</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('I think you\'re absolutely right.', 'choices43')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 44 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 44: Disagreement (Soft)</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: I think cats are better than dogs.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the most suitable disagreement.</span></p>
+  </div>
+  <div id="choices44" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Well, I actually prefer dogs.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s a blue pen.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I agree completely.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good afternoon!</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Well, I actually prefer dogs.', 'choices44')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 44 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 44: Disagreement (Soft)</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: I think cats are better than dogs.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the most suitable disagreement.</span></p>
+  </div>
+  <div id="choices44" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Well, I actually prefer dogs.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">That’s a blue pen.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I agree completely.</button>
+    <button onclick="selectAnswer(this, 'choices44')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good afternoon!</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Well, I actually prefer dogs.', 'choices44')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 45 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Practice 45: Simple Agreement</h2>
+  <div class="mb-4">
+    <p class="font-semibold">👤 A: Let’s go to the library after school.</p>
+    <p class="font-semibold">👤 B: <span class="italic text-gray-600">Choose the best reply.</span></p>
+  </div>
+  <div id="choices45" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices45')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Sure, that sounds great!</button>
+    <button onclick="selectAnswer(this, 'choices45')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I don’t like history class.</button>
+    <button onclick="selectAnswer(this, 'choices45')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Where is my backpack?</button>
+    <button onclick="selectAnswer(this, 'choices45')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Good morning, teacher!</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Sure, that sounds great!', 'choices45')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition duration-300 font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 46-50 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 46–50: Congratulating a Friend</h2>
+  <div class="text-left mb-6 space-y-3">
+    <p class="font-semibold">Conversation:</p>
+
+    <p><strong>A:</strong> Hey, I heard you won the science competition. That’s amazing!
+      <button onclick="speakText('Hey, I heard you won the science competition. That’s amazing!')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Hei, aku dengar kamu menang lomba sains. Itu luar biasa!')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> Thanks a lot! I’ve been working really hard on it.
+      <button onclick="speakText('Thanks a lot! I’ve been working really hard on it.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Terima kasih banyak! Aku sudah bekerja sangat keras untuk itu.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> You totally deserve it. Congratulations!
+      <button onclick="speakText('You totally deserve it. Congratulations!')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Kamu benar-benar pantas mendapatkannya. Selamat ya!')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> Thank you! I really appreciate your support.
+      <button onclick="speakText('Thank you! I really appreciate your support.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Terima kasih! Aku sangat menghargai dukunganmu.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> Let’s celebrate together this weekend!
+      <button onclick="speakText('Let’s celebrate together this weekend!')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Ayo kita rayakan bersama akhir pekan ini!')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+  </div>
+</div>
+
+
+<script>
+  function toggleTranslate(button, translation) {
+    const existing = button.nextElementSibling;
+    if (existing && existing.classList.contains('translation')) {
+      existing.remove();
+    } else {
+      const span = document.createElement("span");
+      span.textContent = translation;
+      span.className = "block text-gray-600 text-sm mt-1 translation";
+      button.insertAdjacentElement("afterend", span);
+    }
+  }
+
+  function speakText(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(msg);
+  }
+</script>
+
+
+  <h3 class="text-xl font-semibold mb-4 text-[#4dd4a3]">📝 Answer the questions below based on the conversation</h3>
+  <!-- Soal 46 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 46</h2>
+  <p class="text-lg mb-2 font-semibold">👉 Why did the speaker congratulate their friend?</p>
+  <div id="choices46" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices46')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Because they helped a friend</button>
+    <button onclick="selectAnswer(this, 'choices46')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Because they passed an exam</button>
+    <button onclick="selectAnswer(this, 'choices46')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Because they won a science competition</button>
+    <button onclick="selectAnswer(this, 'choices46')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Because they got a scholarship</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('Because they won a science competition', 'choices46')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+
+<!-- Soal 47 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 47</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What did B say about their effort?</p>
+  <div id="choices47" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices47')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They didn’t expect to win</button>
+    <button onclick="selectAnswer(this, 'choices47')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They copied their friend’s work</button>
+    <button onclick="selectAnswer(this, 'choices47')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They’ve been working really hard</button>
+    <button onclick="selectAnswer(this, 'choices47')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They asked for help</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('They’ve been working really hard', 'choices47')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 48 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 48</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What did A say to show support?</p>
+  <div id="choices48" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices48')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">You totally deserve it!</button>
+    <button onclick="selectAnswer(this, 'choices48')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I’m not surprised</button>
+    <button onclick="selectAnswer(this, 'choices48')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">I would do the same</button>
+    <button onclick="selectAnswer(this, 'choices48')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">Don’t tell anyone</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('You totally deserve it!', 'choices48')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 49 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 49</h2>
+  <p class="text-lg mb-2 font-semibold">👉 How did B respond to A's congratulation?</p>
+  <div id="choices49" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices49')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They ignored it</button>
+    <button onclick="selectAnswer(this, 'choices49')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They said they didn’t need support</button>
+    <button onclick="selectAnswer(this, 'choices49')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They thanked A and appreciated their support</button>
+    <button onclick="selectAnswer(this, 'choices49')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">They changed the topic</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('They thanked A and appreciated their support', 'choices49')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 50 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 50</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What did A suggest at the end of the conversation?</p>
+  <div id="choices50" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+    <button onclick="selectAnswer(this, 'choices50')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To start a study group</button>
+    <button onclick="selectAnswer(this, 'choices50')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To celebrate together on the weekend</button>
+    <button onclick="selectAnswer(this, 'choices50')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To meet the teacher</button>
+    <button onclick="selectAnswer(this, 'choices50')" class="bg-white border rounded-lg px-4 py-2 hover:bg-green-50 shadow">To join another competition</button>
+  </div>
+  <div class="mt-6">
+    <button onclick="checkAnswer('To celebrate together on the weekend', 'choices50')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded hover:bg-green-600 transition font-semibold">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 51-55 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Practice 51–55: Wish and Hope</h2>
+  <div class="text-left mb-6 space-y-3">
+    <p class="font-semibold">Conversation:</p>
+
+    <p><strong>A:</strong> You look worried. Is everything okay?
+      <button onclick="speakText('You look worried. Is everything okay?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Kamu terlihat cemas. Apakah semuanya baik-baik saja?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> Not really. I didn’t pass the math exam.
+      <button onclick="speakText('Not really. I didn’t pass the math exam.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Tidak juga. Aku tidak lulus ujian matematika.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> Oh no! I’m sorry to hear that.
+      <button onclick="speakText('Oh no! I’m sorry to hear that.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Oh tidak! Aku turut sedih mendengarnya.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> I wish I had studied harder.
+      <button onclick="speakText('I wish I had studied harder.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Aku berharap aku belajar lebih giat.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> You can try again next semester.
+      <button onclick="speakText('You can try again next semester.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Kamu bisa mencoba lagi semester depan.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> I hope so. I really want to improve.
+      <button onclick="speakText('I hope so. I really want to improve.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Semoga begitu. Aku benar-benar ingin lebih baik.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> Do you want me to help you study?
+      <button onclick="speakText('Do you want me to help you study?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Kamu mau aku bantu belajar?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> That would be great. Thank you!
+      <button onclick="speakText('That would be great. Thank you!')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Itu akan sangat bagus. Terima kasih!')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>A:</strong> Let’s make a study schedule together.
+      <button onclick="speakText('Let’s make a study schedule together.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Ayo kita buat jadwal belajar bersama.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+
+    <p><strong>B:</strong> Good idea! I hope I’ll do better next time.
+      <button onclick="speakText('Good idea! I hope I’ll do better next time.')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+      <button onclick="toggleTranslate(this, 'Ide yang bagus! Semoga aku lebih baik lain kali.')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+    </p>
+  </div>
+</div>
+
+<!-- Soal 51 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 51</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What problem did the boy face in the conversation?</p>
+  <button onclick="speakText('What problem did the boy face in the conversation?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+  <button onclick="toggleTranslate(this, 'Masalah apa yang dihadapi anak laki-laki dalam percakapan?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+  
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button onclick="checkAnswer(this, false)" class="option-btn">A. He lost his wallet</button>
+    <button onclick="checkAnswer(this, true)" class="option-btn">B. He didn’t pass the math exam</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">C. He forgot his homework</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">D. He was late for school</button>
+  </div>
+</div>
+
+<!-- Soal 52 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 52</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What did the boy wish?</p>
+  <button onclick="speakText('What did the boy wish?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+  <button onclick="toggleTranslate(this, 'Apa yang diharapkan oleh anak laki-laki itu?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+  
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button onclick="checkAnswer(this, false)" class="option-btn">A. He wished to win a prize</button>
+    <button onclick="checkAnswer(this, true)" class="option-btn">B. He wished he had studied harder</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">C. He wished he had more friends</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">D. He wished he had a new teacher</button>
+  </div>
+</div>
+
+<!-- Soal 53 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 53</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What did the friend offer to do?</p>
+  <button onclick="speakText('What did the friend offer to do?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+  <button onclick="toggleTranslate(this, 'Apa yang ditawarkan oleh temannya?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button onclick="checkAnswer(this, false)" class="option-btn">A. To lend him money</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">B. To talk to the teacher</button>
+    <button onclick="checkAnswer(this, true)" class="option-btn">C. To help him study</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">D. To call his parents</button>
+  </div>
+</div>
+
+<!-- Soal 54 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 54</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What does the boy hope for the future?</p>
+  <button onclick="speakText('What does the boy hope for the future?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+  <button onclick="toggleTranslate(this, 'Apa harapan anak laki-laki itu untuk masa depan?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button onclick="checkAnswer(this, false)" class="option-btn">A. He hopes to change school</button>
+    <button onclick="checkAnswer(this, true)" class="option-btn">B. He hopes to do better next time</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">C. He hopes to get a new teacher</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">D. He hopes to graduate early</button>
+  </div>
+</div>
+
+<!-- Soal 55 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Conversation Practice 55</h2>
+  <p class="text-lg mb-2 font-semibold">👉 What kind of attitude did the friend show?</p>
+  <button onclick="speakText('What kind of attitude did the friend show?')" class="text-[#4dd4a3] text-xl hover:text-green-600">🔊</button>
+  <button onclick="toggleTranslate(this, 'Sikap seperti apa yang ditunjukkan temannya?')" class="ml-2 text-sm text-blue-500 hover:underline">Terjemahkan</button>
+
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button onclick="checkAnswer(this, true)" class="option-btn">A. Helpful and supportive</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">B. Angry and upset</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">C. Unfriendly and rude</button>
+    <button onclick="checkAnswer(this, false)" class="option-btn">D. Sad and quiet</button>
+  </div>
+</div>
+<!-- Agreement and Disagreement Conversation -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🗣️ Conversation Practice: Agreement and Disagreement</h2>
+  <div class="space-y-4">
+
+    <!-- Baris 1 -->
+    <div>
+      <p><strong>A:</strong> We need to decide on a topic for our school project. What about climate change?
+        <button onclick="speakText('We need to decide on a topic for our school project. What about climate change?')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Kita perlu memutuskan topik untuk proyek sekolah kita. Bagaimana kalau perubahan iklim?</p>
+    </div>
+
+    <!-- Baris 2 -->
+    <div>
+      <p><strong>B:</strong> I totally agree. It's a very relevant topic.
+        <button onclick="speakText('I totally agree. It\'s a very relevant topic.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya sangat setuju. Itu topik yang sangat relevan.</p>
+    </div>
+
+    <!-- Baris 3 -->
+    <div>
+      <p><strong>A:</strong> Should we focus on global warming?
+        <button onclick="speakText('Should we focus on global warming?')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Apakah kita harus fokus pada pemanasan global?</p>
+    </div>
+
+    <!-- Baris 4 -->
+    <div>
+      <p><strong>B:</strong> I'm not so sure. Maybe we can talk about deforestation instead.
+        <button onclick="speakText('I\'m not so sure. Maybe we can talk about deforestation instead.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya tidak terlalu yakin. Mungkin kita bisa membahas deforestasi sebagai gantinya.</p>
+    </div>
+
+    <!-- Baris 5 -->
+    <div>
+      <p><strong>A:</strong> Good point. How about we include both topics?
+        <button onclick="speakText('Good point. How about we include both topics?')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Ide bagus. Bagaimana kalau kita masukkan kedua topik itu?</p>
+    </div>
+
+    <!-- Baris 6 -->
+    <div>
+      <p><strong>B:</strong> That sounds fair. I’m with you on that.
+        <button onclick="speakText('That sounds fair. I’m with you on that.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Kedengarannya adil. Saya setuju denganmu soal itu.</p>
+    </div>
+
+    <!-- Baris 7 -->
+    <div>
+      <p><strong>A:</strong> Do you think we should create a poster or a video?
+        <button onclick="speakText('Do you think we should create a poster or a video?')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Menurutmu kita sebaiknya membuat poster atau video?</p>
+    </div>
+
+    <!-- Baris 8 -->
+    <div>
+      <p><strong>B:</strong> I prefer a video. It's more engaging.
+        <button onclick="speakText('I prefer a video. It\'s more engaging.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya lebih suka video. Itu lebih menarik.</p>
+    </div>
+
+    <!-- Baris 9 -->
+    <div>
+      <p><strong>A:</strong> I see your point, but posters are easier to make.
+        <button onclick="speakText('I see your point, but posters are easier to make.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya mengerti maksudmu, tapi poster lebih mudah dibuat.</p>
+    </div>
+
+    <!-- Baris 10 -->
+    <div>
+      <p><strong>B:</strong> You’re right. Let’s go with a poster then.
+        <button onclick="speakText('You’re right. Let’s go with a poster then.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Kamu benar. Mari kita buat poster saja kalau begitu.</p>
+    </div>
+
+    <!-- Baris 11 -->
+    <div>
+      <p><strong>A:</strong> Should we use real pictures or just drawings?
+        <button onclick="speakText('Should we use real pictures or just drawings?')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Haruskah kita menggunakan gambar nyata atau hanya ilustrasi?</p>
+    </div>
+
+    <!-- Baris 12 -->
+    <div>
+      <p><strong>B:</strong> I’d say real pictures will make more impact.
+        <button onclick="speakText('I’d say real pictures will make more impact.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya rasa gambar nyata akan memberi dampak lebih besar.</p>
+    </div>
+
+    <!-- Baris 13 -->
+    <div>
+      <p><strong>A:</strong> I don’t really agree. Drawings are more creative.
+        <button onclick="speakText('I don’t really agree. Drawings are more creative.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Saya kurang setuju. Ilustrasi lebih kreatif.</p>
+    </div>
+
+    <!-- Baris 14 -->
+    <div>
+      <p><strong>B:</strong> Fair enough. Let’s combine both!
+        <button onclick="speakText('Fair enough. Let’s combine both!')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Cukup adil. Mari kita gabungkan keduanya!</p>
+    </div>
+
+    <!-- Baris 15 -->
+    <div>
+      <p><strong>A:</strong> Great! I’m glad we could agree.
+        <button onclick="speakText('Great! I’m glad we could agree.')" class="text-[#4dd4a3] text-xl">🔊</button>
+        <button onclick="toggleTranslation(this)" class="ml-2 text-sm text-blue-500">Terjemahan</button>
+      </p>
+      <p class="translation hidden text-gray-600">Hebat! Saya senang kita bisa sepakat.</p>
+    </div>
+
+  </div>
+</div>
+<!-- Soal 56 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 56</h2>
+  <p class="text-lg font-semibold mb-2">👉 What does person A suggest?</p>
+  <div id="choices56" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices56')" class="bg-white border rounded-lg px-4 py-2 shadow">Wearing uniforms every day</button>
+    <button onclick="selectAnswer(this, 'choices56')" class="bg-white border rounded-lg px-4 py-2 shadow">Wearing casual clothes</button>
+    <button onclick="selectAnswer(this, 'choices56')" class="bg-white border rounded-lg px-4 py-2 shadow">No uniform at all</button>
+    <button onclick="selectAnswer(this, 'choices56')" class="bg-white border rounded-lg px-4 py-2 shadow">Wearing uniforms once a year</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Wearing uniforms every day', 'choices56')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 57 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 57</h2>
+  <p class="text-lg font-semibold mb-2">👉 Why does person B disagree?</p>
+  <div id="choices57" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices57')" class="bg-white border rounded-lg px-4 py-2 shadow">It’s uncomfortable</button>
+    <button onclick="selectAnswer(this, 'choices57')" class="bg-white border rounded-lg px-4 py-2 shadow">It limits freedom of expression</button>
+    <button onclick="selectAnswer(this, 'choices57')" class="bg-white border rounded-lg px-4 py-2 shadow">It is too expensive</button>
+    <button onclick="selectAnswer(this, 'choices57')" class="bg-white border rounded-lg px-4 py-2 shadow">It causes conflicts</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('It limits freedom of expression', 'choices57')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 58 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 58</h2>
+  <p class="text-lg font-semibold mb-2">👉 What compromise does person A offer?</p>
+  <div id="choices58" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices58')" class="bg-white border rounded-lg px-4 py-2 shadow">Wear uniforms only on Mondays</button>
+    <button onclick="selectAnswer(this, 'choices58')" class="bg-white border rounded-lg px-4 py-2 shadow">Wear uniforms on Fridays</button>
+    <button onclick="selectAnswer(this, 'choices58')" class="bg-white border rounded-lg px-4 py-2 shadow">Wear uniforms twice a week</button>
+    <button onclick="selectAnswer(this, 'choices58')" class="bg-white border rounded-lg px-4 py-2 shadow">No uniforms at all</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Wear uniforms only on Mondays', 'choices58')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 59 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 59</h2>
+  <p class="text-lg font-semibold mb-2">👉 How does person B respond to the new suggestion?</p>
+  <div id="choices59" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices59')" class="bg-white border rounded-lg px-4 py-2 shadow">They disagree</button>
+    <button onclick="selectAnswer(this, 'choices59')" class="bg-white border rounded-lg px-4 py-2 shadow">They are unsure</button>
+    <button onclick="selectAnswer(this, 'choices59')" class="bg-white border rounded-lg px-4 py-2 shadow">They agree</button>
+    <button onclick="selectAnswer(this, 'choices59')" class="bg-white border rounded-lg px-4 py-2 shadow">They ignore it</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('They agree', 'choices59')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 60 -->
+<div class="p-6 bg-white rounded-xl shadow-lg border border-gray-200 mt-8 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🧠 Question 60</h2>
+  <p class="text-lg font-semibold mb-2">👉 What is the main topic of this conversation?</p>
+  <div id="choices60" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <button onclick="selectAnswer(this, 'choices60')" class="bg-white border rounded-lg px-4 py-2 shadow">School lunch</button>
+    <button onclick="selectAnswer(this, 'choices60')" class="bg-white border rounded-lg px-4 py-2 shadow">Uniform policy</button>
+    <button onclick="selectAnswer(this, 'choices60')" class="bg-white border rounded-lg px-4 py-2 shadow">Holiday plans</button>
+    <button onclick="selectAnswer(this, 'choices60')" class="bg-white border rounded-lg px-4 py-2 shadow">Class schedule</button>
+  </div>
+  <div class="mt-4">
+    <button onclick="checkAnswer('Uniform policy', 'choices60')" class="bg-[#4dd4a3] text-white px-6 py-2 rounded">✅ Check Answer</button>
+  </div>
+</div>
+</div>
+<script>
+  function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+
+  function toggleTranslation(button) {
+    const translation = button.parentElement.nextElementSibling;
+    translation.classList.toggle("hidden");
+  }
+</script>
+<script>
+  function toggleTranslate(button, translation) {
+    const existing = button.nextElementSibling;
+    if (existing && existing.classList.contains('translation')) {
+      existing.remove();
+    } else {
+      const span = document.createElement("span");
+      span.textContent = translation;
+      span.className = "block text-gray-600 text-sm mt-1 translation";
+      button.insertAdjacentElement("afterend", span);
+    }
+  }
+
+  function speakText(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(msg);
+  }
+</script>
+
+
+
+
+<!-- Tombol Toggle -->
+  <button onclick="togglePractice('practiceBox1')" 
+    class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition duration-300">
+     🎧Conversation Practice 
+  </button>
+
+  <!-- Kontainer Soal -->
+  <div id="practiceBox1" class="mt-6 hidden space-y-8">
+<!-- Soal 1: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 1</h2>
+
+  <!-- Kalimat Bahasa Inggris -->
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Hey, Dika! I heard you won the science competition. That’s awesome!
+  </p>
+
+  <!-- Tombol Audio -->
+  <button onclick="speakText('Hey, Dika! I heard you won the science competition. That’s awesome!')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">
+    🔊 Play Audio
+  </button>
+
+  <!-- Tombol Terjemahan -->
+  <button onclick="toggleTranslate(this, 'Hei, Dika! Aku dengar kamu menang lomba sains. Keren banget!')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">
+    🇮🇩 Lihat Terjemahan
+  </button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <!-- Input Voice & Check -->
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput1')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">
+      🎤 Start Speaking
+    </button>
+    <input type="text" id="voiceInput1" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback1" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput1', `Hey, Dika! I heard you won the science competition. That’s awesome!`, 'feedback1')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">
+      ✅ Check Answer
+    </button>
+  </div>
+</div>
+
+
+<!-- Soal 2: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 2</h2>
+
+  <!-- Kalimat Bahasa Inggris -->
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Yeah, thanks, Budi! I still can't believe it.
+  </p>
+
+  <!-- Tombol Audio -->
+  <button onclick="speakText(this.previousElementSibling.innerText)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">
+    🔊 Play Audio
+  </button>
+
+  <!-- Tombol Terjemahan -->
+  <button onclick="toggleTranslate(this, 'Ya, terima kasih, Budi! Aku masih nggak percaya.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">
+    🇮🇩 Lihat Terjemahan
+  </button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <!-- Input Voice & Check -->
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput2')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">
+      🎤 Start Speaking
+    </button>
+    <input type="text" id="voiceInput2" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback2" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput2', `Yeah, thanks, Budi! I still can't believe it.`, 'feedback2')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">
+      ✅ Check Answer
+    </button>
+  </div>
+</div>
+
+<!-- Soal 3: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 3</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    You really deserved it. I saw how hard you studied.
+  </p>
+
+  <button onclick="speakText(this.previousElementSibling.innerText)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">
+    🔊 Play Audio
+  </button>
+
+  <button onclick="toggleTranslate(this, 'Kamu memang pantas mendapatkannya. Aku lihat betapa giatnya kamu belajar.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">
+    🇮🇩 Lihat Terjemahan
+  </button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput3')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">
+      🎤 Start Speaking
+    </button>
+    <input type="text" id="voiceInput3" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback3" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput3', `You really deserved it. I saw how hard you studied.`, 'feedback3')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">
+      ✅ Check Answer
+    </button>
+  </div>
+</div>
+
+<!-- Soal 4: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 4</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Thanks, man. It really paid off in the end.
+  </p>
+
+  <button onclick="speakText(this.previousElementSibling.innerText)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">
+    🔊 Play Audio
+  </button>
+
+  <button onclick="toggleTranslate(this, 'Terima kasih, bro. Semua usaha itu akhirnya terbayar.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">
+    🇮🇩 Lihat Terjemahan
+  </button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput4')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">
+      🎤 Start Speaking
+    </button>
+    <input type="text" id="voiceInput4" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback4" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput4', `Thanks, man. It really paid off in the end.`, 'feedback4')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">
+      ✅ Check Answer
+    </button>
+  </div>
+</div>
+
+<!-- Soal 5: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 5</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Let’s celebrate this weekend. Ice cream on me!
+  </p>
+
+  <button onclick="speakText(this.previousElementSibling.innerText)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">
+    🔊 Play Audio
+  </button>
+
+  <button onclick="toggleTranslate(this, 'Ayo kita rayakan akhir pekan ini. Aku yang traktir es krim!')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">
+    🇮🇩 Lihat Terjemahan
+  </button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput5')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">
+      🎤 Start Speaking
+    </button>
+    <input type="text" id="voiceInput5" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback5" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput5', `Let’s celebrate this weekend. Ice cream on me!`, 'feedback5')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">
+      ✅ Check Answer
+    </button>
+  </div>
+</div>
+<!-- Soal 6: Percakapan Interaktif Lengkap -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 6</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    What are you hoping for right now?
+  </p>
+
+  <button onclick="speakText('What are you hoping for right now?')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Kamu sedang berharap apa sekarang?')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput6')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput6" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback6" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput6', `What are you hoping for right now?`, 'feedback6')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 7</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    I’m hoping to get a scholarship for university.
+  </p>
+
+  <button onclick="speakText('I’m hoping to get a scholarship for university.')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Aku berharap bisa mendapatkan beasiswa untuk kuliah.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput7')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput7" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback7" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput7', `I’m hoping to get a scholarship for university.`, 'feedback7')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 8</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    How about you? What do you hope for?
+  </p>
+
+  <button onclick="speakText('How about you? What do you hope for?')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Kalau kamu? Kamu berharap apa?')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput8')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput8" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback8" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput8', `How about you? What do you hope for?`, 'feedback8')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 9</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    I hope my family stays healthy and happy.
+  </p>
+
+  <button onclick="speakText('I hope my family stays healthy and happy.')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Aku berharap keluargaku tetap sehat dan bahagia.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput9')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput9" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback9" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput9', `I hope my family stays healthy and happy.`, 'feedback9')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 10</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Do you think hope is important in life?
+  </p>
+
+  <button onclick="speakText('Do you think hope is important in life?')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Menurutmu apakah harapan itu penting dalam hidup?')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput10')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput10" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback10" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput10', `Do you think hope is important in life?`, 'feedback10')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+<!-- Soal 11 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 11</h2> <p class="text-lg font-semibold text-gray-800 mb-2">Absolutely. Without hope, life can feel meaningless.</p>
+
+<button onclick="speakText('Absolutely. Without hope, life can feel meaningless.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Tentu saja. Tanpa harapan, hidup bisa terasa tidak berarti.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput11')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput11" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback11" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput11', `Absolutely. Without hope, life can feel meaningless.`, 'feedback11')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 12 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 12</h2> <p class="text-lg font-semibold text-gray-800 mb-2">Have your hopes ever come true?</p>
+
+<button onclick="speakText('Have your hopes ever come true?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah harapanmu pernah menjadi kenyataan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput12')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput12" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback12" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput12', `Have your hopes ever come true?`, 'feedback12')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 13 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 13</h2> <p class="text-lg font-semibold text-gray-800 mb-2">Yes! I once hoped to visit Japan, and it happened last year.</p>
+
+<button onclick="speakText('Yes! I once hoped to visit Japan, and it happened last year.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Ya! Saya pernah berharap untuk mengunjungi Jepang, dan itu terjadi tahun lalu.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput13')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput13" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback13" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput13', `Yes! I once hoped to visit Japan, and it happened last year.`, 'feedback13')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 14 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 14</h2> <p class="text-lg font-semibold text-gray-800 mb-2">Do you hope to live in another country someday?</p>
+
+<button onclick="speakText('Do you hope to live in another country someday?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu berharap bisa tinggal di negara lain suatu hari nanti?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput14')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput14" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback14" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput14', `Do you hope to live in another country someday?`, 'feedback14')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 15 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 15</h2> <p class="text-lg font-semibold text-gray-800 mb-2">Yes, I hope to live in Canada. I love the culture and nature there.</p>
+
+<button onclick="speakText('Yes, I hope to live in Canada. I love the culture and nature there.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Ya, aku berharap bisa tinggal di Kanada. Aku suka budaya dan alam di sana.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput15')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput15" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback15" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput15', `Yes, I hope to live in Canada. I love the culture and nature there.`, 'feedback15')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div>
+<!-- Soal 16 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 16</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What do you hope to achieve in the next 5 years? </p>
+
+<button onclick="speakText('What do you hope to achieve in the next 5 years?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apa yang kamu harapkan bisa dicapai dalam 5 tahun ke depan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput16')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput16" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback16" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput16', `What do you hope to achieve in the next 5 years?`, 'feedback16')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 17 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 17</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I hope to graduate, find a good job, and become more independent. </p>
+
+<button onclick="speakText('I hope to graduate, find a good job, and become more independent.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya berharap bisa lulus, mendapatkan pekerjaan yang baik, dan menjadi lebih mandiri.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput17')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput17" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback17" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput17', `I hope to graduate, find a good job, and become more independent.`, 'feedback17')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 18 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 18</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you think it’s okay to hope for things you can’t control? </p>
+
+<button onclick="speakText('Do you think it’s okay to hope for things you can’t control?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Menurutmu apakah tidak apa-apa berharap pada hal-hal yang tidak bisa kita kendalikan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput18')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput18" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback18" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput18', `Do you think it’s okay to hope for things you can’t control?`, 'feedback18')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 19 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 19</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I think it’s okay, as long as we don’t depend only on hope. </p>
+
+<button onclick="speakText('I think it’s okay, as long as we don’t depend only on hope.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Menurut saya tidak apa-apa, selama kita tidak hanya bergantung pada harapan.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput19')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput19" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback19" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput19', `I think it’s okay, as long as we don’t depend only on hope.`, 'feedback19')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div>
+<!-- Soal 20 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 20</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What do you hope people say about you? </p>
+
+<button onclick="speakText('What do you hope people say about you?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apa yang kamu harap orang katakan tentangmu?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput20')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput20" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback20" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput20', `What do you hope people say about you?`, 'feedback20')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 21 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 21</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I hope they say I’m kind, honest, and hardworking. </p>
+
+<button onclick="speakText('I hope they say I’m kind, honest, and hardworking.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya harap mereka bilang saya baik, jujur, dan pekerja keras.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput21')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput21" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback21" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput21', `I hope they say I’m kind, honest, and hardworking.`, 'feedback21')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 22 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 22</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you hope to get married someday? </p>
+
+<button onclick="speakText('Do you hope to get married someday?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu berharap untuk menikah suatu hari nanti?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput22')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput22" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback22" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput22', `Do you hope to get married someday?`, 'feedback22')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 23 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 23</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Yes, but only when I’m truly ready and meet the right person. </p>
+
+<button onclick="speakText('Yes, but only when I’m truly ready and meet the right person.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Ya, tapi hanya ketika saya benar-benar siap dan bertemu orang yang tepat.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput23')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput23" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback23" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput23', `Yes, but only when I’m truly ready and meet the right person.`, 'feedback23')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 24 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 24</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What do you hope the world will be like in 10 years? </p>
+
+<button onclick="speakText('What do you hope the world will be like in 10 years?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Bagaimana kamu berharap dunia ini dalam 10 tahun ke depan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput24')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput24" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback24" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput24', `What do you hope the world will be like in 10 years?`, 'feedback24')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 25 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 25</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I hope the world will be more peaceful and greener. </p>
+
+<button onclick="speakText('I hope the world will be more peaceful and greener.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya berharap dunia akan lebih damai dan lebih hijau.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput25')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput25" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback25" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput25', `I hope the world will be more peaceful and greener.`, 'feedback25')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 26 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 26</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you hope to have children in the future? </p>
+
+<button onclick="speakText('Do you hope to have children in the future?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu berharap punya anak di masa depan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput26')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput26" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback26" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput26', `Do you hope to have children in the future?`, 'feedback26')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 27 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 27</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I think so. I hope I can be a good father someday. </p>
+
+<button onclick="speakText('I think so. I hope I can be a good father someday.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya rasa begitu. Saya berharap bisa menjadi ayah yang baik suatu hari nanti.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput27')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput27" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback27" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput27', `I think so. I hope I can be a good father someday.`, 'feedback27')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div>
+<!-- Soal 28 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 28</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What do you hope your future job will be like? </p>
+
+<button onclick="speakText('What do you hope your future job will be like?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Seperti apa kamu berharap pekerjaanmu di masa depan nanti?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput28')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput28" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback28" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput28', `What do you hope your future job will be like?`, 'feedback28')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 29 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 29</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I hope it’s meaningful, challenging, and helps others. </p>
+
+<button onclick="speakText('I hope it’s meaningful, challenging, and helps others.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya berharap pekerjaan itu bermakna, menantang, dan membantu orang lain.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput29')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput29" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback29" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput29', `I hope it’s meaningful, challenging, and helps others.`, 'feedback29')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 30 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 30</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you ever lose hope? </p>
+
+<button onclick="speakText('Do you ever lose hope?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu pernah kehilangan harapan?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput30')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput30" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback30" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput30', `Do you ever lose hope?`, 'feedback30')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 31 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 31</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Sometimes, but I try to remind myself that tough times pass. </p>
+
+<button onclick="speakText('Sometimes, but I try to remind myself that tough times pass.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Kadang-kadang, tapi saya mencoba mengingatkan diri bahwa masa sulit akan berlalu.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput31')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput31" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback31" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput31', `Sometimes, but I try to remind myself that tough times pass.`, 'feedback31')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div>
+<!-- Soal 32 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 16</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Who gives you hope when you feel down? </p>
+
+<button onclick="speakText('Who gives you hope when you feel down?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Siapa yang memberimu harapan saat kamu merasa sedih?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput32')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput32" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback32" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput32', `Who gives you hope when you feel down?`, 'feedback32')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 33 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 17</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> My mom. Her words always comfort and motivate me. </p>
+
+<button onclick="speakText('My mom. Her words always comfort and motivate me.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Ibuku. Kata-katanya selalu menghibur dan memotivasiku.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput33')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput33" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback33" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput33', `My mom. Her words always comfort and motivate me.`, 'feedback33')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 34 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 18</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What small thing gave you hope this week? </p>
+
+<button onclick="speakText('What small thing gave you hope this week?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Hal kecil apa yang memberimu harapan minggu ini?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput34')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput34" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback34" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput34', `What small thing gave you hope this week?`, 'feedback34')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 35 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 19</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> A stranger smiled at me when I was feeling low. It meant a lot. </p>
+
+<button onclick="speakText('A stranger smiled at me when I was feeling low. It meant a lot.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Seorang asing tersenyum padaku saat aku merasa sedih. Itu sangat berarti bagiku.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput35')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput35" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback35" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput35', `A stranger smiled at me when I was feeling low. It meant a lot.`, 'feedback35')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 36 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 20</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you hope to learn something new this year? </p>
+
+<button onclick="speakText('Do you hope to learn something new this year?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu berharap mempelajari hal baru tahun ini?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput36')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput36" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback36" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput36', `Do you hope to learn something new this year?`, 'feedback36')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 37 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 21</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Yes! I hope to learn how to play the guitar. </p>
+
+<button onclick="speakText('Yes! I hope to learn how to play the guitar.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Ya! Saya berharap bisa belajar bermain gitar.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput37')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput37" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback37" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput37', `Yes! I hope to learn how to play the guitar.`, 'feedback37')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 38 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 22</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> What do you hope your friends feel when they’re around you? </p>
+
+<button onclick="speakText('What do you hope your friends feel when they’re around you?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apa yang kamu harap dirasakan teman-temanmu saat mereka bersamamu?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput38')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput38" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback38" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput38', `What do you hope your friends feel when they’re around you?`, 'feedback38')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 39 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 23</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> I hope they feel supported, safe, and appreciated. </p>
+
+<button onclick="speakText('I hope they feel supported, safe, and appreciated.')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Saya berharap mereka merasa didukung, aman, dan dihargai.')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput39')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput39" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback39" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput39', `I hope they feel supported, safe, and appreciated.`, 'feedback39')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div> <!-- Soal 40 --> <div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6"> <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 24</h2> <p class="text-lg font-semibold text-gray-800 mb-2"> Do you have any hopes for your community? </p>
+
+<button onclick="speakText('Do you have any hopes for your community?')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+<button onclick="toggleTranslate(this, 'Apakah kamu memiliki harapan untuk komunitasmu?')" class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+<div class="translation-target mt-2 text-gray-700"></div> <div class="mt-6"> <button onclick="startVoiceInput('voiceInput40')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button> <input type="text" id="voiceInput40" placeholder="Your speech will appear here..." class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly> <div id="feedback40" class="text-sm mt-2"></div> <button onclick="checkVoiceAnswer('voiceInput40', `Do you have any hopes for your community?`, 'feedback40')" class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button> </div> </div>
+<!-- Soal 41 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 41</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    I hope people become more helpful and connected.
+  </p>
+
+  <button onclick="speakText('I hope people become more helpful and connected.')" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Saya berharap orang-orang menjadi lebih membantu dan terhubung satu sama lain.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput41')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput41" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback41" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput41', `I hope people become more helpful and connected.`, 'feedback41')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 42 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 42</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    What’s one hope you’ve had since childhood?
+  </p>
+
+  <button onclick="speakText(`What's one hope you've had since childhood?`)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Apa harapan yang kamu miliki sejak kecil?')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput42')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput42" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback42" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput42', `What's one hope you've had since childhood?`, 'feedback42')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 43 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 43</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    I’ve always hoped to become a writer and publish a book.
+  </p>
+
+  <button onclick="speakText(`I've always hoped to become a writer and publish a book.`)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Saya selalu berharap bisa menjadi penulis dan menerbitkan sebuah buku.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput43')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput43" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback43" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput43', `I've always hoped to become a writer and publish a book.`, 'feedback43')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 44 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 44</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Do you believe hope can change the world?
+  </p>
+
+  <button onclick="speakText(`Do you believe hope can change the world?`)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Apakah kamu percaya bahwa harapan bisa mengubah dunia?')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput44')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput44" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback44" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput44', `Do you believe hope can change the world?`, 'feedback44')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+<!-- Soal 45 -->
+<div class="p-6 bg-blue-100 rounded-xl shadow-lg border border-blue-200 mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🎧 Conversation Practice 45</h2>
+
+  <p class="text-lg font-semibold text-gray-800 mb-2">
+    Yes, I believe hope leads to action, and action changes the world.
+  </p>
+
+  <button onclick="speakText(`Yes, I believe hope leads to action, and action changes the world.`)" 
+          class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2">🔊 Play Audio</button>
+  <button onclick="toggleTranslate(this, 'Ya, saya percaya bahwa harapan mendorong tindakan, dan tindakan mengubah dunia.')" 
+          class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 ml-2 mb-2">🇮🇩 Lihat Terjemahan</button>
+  <div class="translation-target mt-2 text-gray-700"></div>
+
+  <div class="mt-6">
+    <button onclick="startVoiceInput('voiceInput45')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition">🎤 Start Speaking</button>
+    <input type="text" id="voiceInput45" placeholder="Your speech will appear here..." 
+           class="w-full border rounded px-4 py-2 shadow text-center mt-2" readonly>
+    <div id="feedback45" class="text-sm mt-2"></div>
+    <button onclick="checkVoiceAnswer('voiceInput45', `Yes, I believe hope leads to action, and action changes the world.`, 'feedback45')" 
+            class="bg-[#4dd4a3] text-white font-semibold px-6 py-2 rounded hover:bg-green-600 transition mt-2">✅ Check Answer</button>
+  </div>
+</div>
+
+</div>
+</div><br>
+
+
+
+<script>
+  function startVoiceInput(inputId) {
+    // Cek dukungan browser
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Browser kamu tidak mendukung speech recognition. Gunakan Google Chrome.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+      const result = event.results[0][0].transcript;
+      document.getElementById(inputId).value = result;
+    };
+
+    recognition.onerror = function(event) {
+      alert('Voice recognition error: ' + event.error);
+    };
+  }
+
+  function checkVoiceAnswer(inputId, correctWord, feedbackId) {
+    const input = document.getElementById(inputId).value.trim().toLowerCase();
+    const feedback = document.getElementById(feedbackId);
+
+    if (input === correctWord.toLowerCase()) {
+      feedback.innerHTML = `<span class="text-green-600 font-semibold">✔️ Pengucapan benar!</span>`;
+    } else {
+      feedback.innerHTML = `<span class="text-red-600 font-semibold">❌ Salah pengucapan. Jawaban benar: <em>${correctWord}</em></span>`;
+    }
+  }
+</script>
+
+<script>
+  let selectedButtons = {};
+
+  function togglePractice(id) {
+    const box = document.getElementById(id);
+    box.classList.toggle("hidden");
+  }
+function checkDualAnswer(engId, indoId, correctEng, correctIndo, feedbackId) {
+  const engInput = document.getElementById(engId).value.trim().toLowerCase();
+  const indoInput = document.getElementById(indoId).value.trim().toLowerCase();
+  const feedback = document.getElementById(feedbackId);
+
+  const isEngCorrect = engInput === correctEng.toLowerCase();
+  const isIndoCorrect = indoInput === correctIndo.toLowerCase();
+
+  if (isEngCorrect && isIndoCorrect) {
+    feedback.innerHTML = `<span class="text-green-600 font-semibold">✔️ Kedua jawaban benar!</span>`;
+  } else {
+    let msg = "";
+    if (!isEngCorrect) {
+      msg += `❌ Kalimat Bahasa Inggris salah. Jawaban benar: <em>${correctEng}</em><br>`;
+    }
+    if (!isIndoCorrect) {
+      msg += `❌ Arti Bahasa Indonesia salah. Jawaban benar: <em>${correctIndo}</em>`;
+    }
+    feedback.innerHTML = `<span class="text-red-600 font-semibold">${msg}</span>`;
+  }
+}
+
+function checkInputAnswer(inputId, word, correct, feedbackId) {
+  const input = document.getElementById(inputId).value.trim().toLowerCase();
+  const feedback = document.getElementById(feedbackId);
+
+  if (input === correct.toLowerCase()) {
+    feedback.innerHTML = `<span class="text-green-600 font-semibold">✔️ Benar!</span>`;
+  } else {
+    feedback.innerHTML = `<span class="text-red-600 font-semibold">❌ Salah. Jawaban yang benar: <em>${correct}</em></span>`;
+  }
+}
+
+  function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
+  }
+
+  function selectAnswer(button, groupId) {
+    speakText(button.innerText);
+    const buttons = document.querySelectorAll(`#${groupId} button`);
+    buttons.forEach(btn => {
+      btn.classList.remove("bg-green-200", "bg-red-200", "ring-2", "ring-[#4dd4a3]");
+    });
+    button.classList.add("ring-2", "ring-[#4dd4a3]");
+    selectedButtons[groupId] = button;
+  }
+
+  function checkAnswer(correctAnswer, groupId) {
+    const button = selectedButtons[groupId];
+    if (!button) {
+      alert("Please select an answer first!");
+      return;
+    }
+
+    const buttons = document.querySelectorAll(`#${groupId} button`);
+    buttons.forEach(btn => {
+      btn.classList.remove("bg-green-200", "bg-red-200");
+    });
+
+    if (button.innerText.toLowerCase() === correctAnswer.toLowerCase()) {
+      button.classList.add("bg-green-200");
+    } else {
+      button.classList.add("bg-red-200");
+
+      // Cari dan tandai jawaban yang benar
+      buttons.forEach(btn => {
+        if (btn.innerText.toLowerCase() === correctAnswer.toLowerCase()) {
+          btn.classList.add("bg-green-200");
+        }
+      });
+    }
+  }
+</script>
+<script>
+  function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+
+  function toggleTranslation(button) {
+    const alreadyShown = button.nextElementSibling && button.nextElementSibling.classList.contains('translation');
+    if (alreadyShown) {
+      button.nextElementSibling.remove();
+    } else {
+      const translation = button.getAttribute('data-translation');
+      const p = document.createElement('p');
+      p.className = 'translation text-sm text-gray-600 mt-1';
+      p.innerText = translation;
+      button.parentNode.appendChild(p);
+    }
+  }
+</script>
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "kelas5", password: "kelas5" },
+    ];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
